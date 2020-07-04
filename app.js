@@ -1,6 +1,8 @@
-import Book from "./Book.js";
-import UI from "./UI.js";
+import Book from "./src/Book.js";
+import UI from "./src/UI.js";
+import Store from "./src/Store.js";
 
+document.addEventListener("DOMContentLoaded", Store.displayBooks());
 // event listener for add, get form values
 document.getElementById("book-form").addEventListener("submit", function (e) {
   const title = document.getElementById("title").value,
@@ -16,6 +18,7 @@ document.getElementById("book-form").addEventListener("submit", function (e) {
   } else {
     // add book to list
     ui.addBookToList(book);
+    Store.addBook(book);
     // clear fields
     ui.clearFields();
     // show success
@@ -29,6 +32,8 @@ document.getElementById("book-list").addEventListener("click", function (e) {
   // instantiate UI
   const ui = new UI();
   ui.deleteBook(e.target);
+  // remove from local storage
+  Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
   ui.showAlert("Book successfully deleted", "success");
   e.preventDefault();
 });
